@@ -1,0 +1,50 @@
+body {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: normal;
+    text-transform: normal;
+    letter-spacing: normal;
+    line-height: 1.4em;
+    background: #222 url(images/bg.jpg);
+}
+
+h1, h2, h3 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-transform: normal;
+    letter-spacing: -1px;
+    line-height: 1.2em;
+}
+
+h1 {
+    font-size: 34px;
+}
+
+h2 {
+    font-size: 26px;
+}
+
+h1 > span {
+    font-weight: normal;
+}
+
+pre {
+	background: #fff;
+	padding: 20px;
+	font-size: 14px;
+	font-family: Courier;
+    font-style: normal;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.06) inset;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.06) inset; 
+}
+
+.wrapper{
+    width: 800px;
+    margin: 40px auto;
+}
