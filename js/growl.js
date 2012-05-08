@@ -22,7 +22,7 @@
           
           var title = options["title"] ? options.title:"Notice";
 
-          return webkitNotifications.createNotification('data:image/gif;base64,R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEHAAIALAAAAAABAAEAAAICVAEAOw==', options.title, $('<div>'+message+'</div>').text()).show();
+          return webkitNotifications.createNotification('data:image/gif;base64,R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEHAAIALAAAAAABAAEAAAICVAEAOw==', title, $('<div>'+message+'</div>').text()).show();
         }else{
           webkitNotifications.requestPermission();
         }
