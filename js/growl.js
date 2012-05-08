@@ -14,10 +14,15 @@
 
     show: function(message, options){
     
+      var options = options || {};
+
       if(this.html5 && window["webkitNotifications"]){
         
         if (webkitNotifications.checkPermission() === 0) {
-          return webkitNotifications.createHTMLNotification(message);
+          
+          var title = options["title"] ? options.title:"Notice";
+
+          return webkitNotifications.createNotification('data:image/gif;base64,R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEHAAIALAAAAAABAAEAAAICVAEAOw==', options.title, $('<div>'+message+'</div>').text()).show();
         }else{
           webkitNotifications.requestPermission();
         }
