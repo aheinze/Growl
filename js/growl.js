@@ -10,13 +10,11 @@
 
   $.Growl = {
 
-    html5: true,
-
     show: function(message, options){
     
       var options = options || {};
 
-      if(this.html5 && window["webkitNotifications"]){
+      if(options.webnotification && window["webkitNotifications"]){
         
         if (webkitNotifications.checkPermission() === 0) {
           
