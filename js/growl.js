@@ -18,7 +18,7 @@
         
         if (webkitNotifications.checkPermission() === 0) {
           
-          var title = options["title"] ? options.title:"Notice";
+          var title = options["title"] ? options.title:" ";
 
           return webkitNotifications.createNotification('data:image/gif;base64,R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEHAAIALAAAAAABAAEAAAICVAEAOw==', title, $('<div>'+message+'</div>').text()).show();
         }else{
