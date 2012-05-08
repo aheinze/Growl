@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Simplebox demo</title>
+		<title>Growl demo</title>
 		<link rel="stylesheet" href="css/style.css" /> 
 		<link rel="stylesheet" href="css/growl.css" /> 
 		<script type="text/javascript" src="js/jquery.js"></script>
@@ -16,8 +16,7 @@
               
               $("#btnExIcon").bind("click",function(){
                 $.Growl.show("That was easy too!!", {
-                  'title'  : "Icon Example",
-                  'icon'   : "parachute",
+                  'title'  : "Sticky Example",
                   'timeout': false
                 });
               });
@@ -25,7 +24,6 @@
               $("#btnExLove").bind("click",function(){
                 $.Growl.show($("#donate").html(), {
                   'title'  : "Show some love...",
-                  'icon'   : "heart",
                   'timeout': false
                 });
               });
@@ -43,7 +41,7 @@
             
             <p>
                 <button id="btnExSimple" type="button">simple example</button> 
-                <button id="btnExIcon" type="button">sticky icon example</button> 
+                <button id="btnExIcon" type="button">sticky example</button> 
                 ...you like it? 
                 <button id="btnExLove" type="button">show some...</button>
             </p>
@@ -53,9 +51,7 @@
 <pre>
 $.Growl.show(content, <span style="color:#999;">{
     //settings
-    "icon": false,
     "title": false,
-    "cls": "",
     "speed": 500,
     "timeout": 3000
 }</span>);

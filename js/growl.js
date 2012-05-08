@@ -1,94 +1,94 @@
+/*
+  $.Growl
 
-(function($){
+  @description: Notification plugin
+  @author: Artur Heinze 
+*/
+;(function($){
   
-  //GROWL OBJECT
-  //--------------------------------------------------------------------
-  
+  var growlContainer;
+
   $.Growl = {
 
-    _growlContainer: null,
-    _statsCount: 0,
-    
+    html5: true,
+
     show: function(message, options){
     
-      var settings = $.extend({
-        "id": ("gs"+$.Growl._statsCount++),
-        "icon": false,
-        "title": false,
-        "message": message,
-        "cls": "",
-        "speed": 500,
-        "timeout": 3000
-      },options);
-      
-      $("#"+settings.id).remove();
-      
-      //append status
-      this._getContainer().prepend(
-        '<div id="'+settings.id+'" class="growlstatus '+settings.cls+'" style="display:none;"><div class="growlstatusclose"></div>'+settings.message+'</div>'
-      );
-      
-      var status = $("#"+settings.id);
-      
-      //bind close button
-      status.find(".growlstatusclose").bind('click',function(){
-        $.Growl.close(settings.id,true,settings.speed);
-      });
-      
-      //show title
-      if(settings.title!==false){
-        status.prepend('<div class="growltitle">'+settings.title+'</div>');
-      }
-      
-      //show icon
-      if(settings.icon!==false){
-        status.addClass("growlwithicon").addClass("growlicon_"+settings.icon);
-      }
-      
-      status
-      //do not hide on hover
-      .hover(
-        function(){
-          status.addClass("growlhover");
-        },
-        function(){
-          status.removeClass("growlhover");
-          if(settings.timeout!==false){
-            window.setTimeout(function(){$.Growl.close(settings.id);}, settings.timeout);
-          }
+      if(this.html5 && window["webkitNotifications"]){
+        
+        if (webkitNotifications.checkPermission() === 0) {
+          return webkitNotifications.createHTMLNotification(message);
+        }else{
+          webkitNotifications.requestPermission();
         }
-      )      
-      //show status+handle timeout
-      .fadeIn(settings.speed,function(){
-        if(settings.timeout!==false){
-          window.setTimeout(function(){$.Growl.close(settings.id);}, settings.timeout);
-        }
-      });
-      
-      return settings.id;
-    },
-    
-    close: function(id,force,speed){
-    
-      if(arguments.length==0){
-        $(".growlstatus",this._getContainer()).hide().remove();
-      }else{
-          var status = $("#"+id);
+      }
 
-          if(!status.hasClass("growlhover") || force){
-            status.animate({opacity:"0.0"}, speed).slideUp(function(){
-                  status.remove();
-            })
-          }
+      if(!growlContainer) {
+        growlContainer = $('<div id="growlcontainer"></div>').appendTo("body");
       }
-    },
-    
-    _getContainer: function(){
-      
-      if(!this._growlContainer) {
-        this._growlContainer = $('<div id="growlcontainer"></div>').appendTo("body");
-      }
-      return this._growlContainer;
+
+      return new Status(message, options);
     }
   };
+
+  /*
+    Status object
+  */
+
+  function Status(message, options) {
+      
+    var $this = this;
+
+    this.settings = $.extend({
+      "title": false,
+      "message": message,
+      "speed": 500,
+      "timeout": 3000
+    }, options);
+
+    this.status = $('<div class="growlstatus" style="display:none;"><div class="growlstatus-close"></div>'+this.settings.message+'</div>');
+
+    //append status
+    growlContainer.prepend(this.status);
+
+    //bind close button
+    this.status.delegate(".growlstatus-close", 'click', function(){
+      $this.cancel(true);
+    });
+
+    //show title
+    if(this.settings.title!==false){
+      this.status.prepend('<div class="growltitle">'+this.settings.title+'</div>');
+    }
+
+    this.status
+    //do not hide on hover
+    .hover(
+      function(){
+        $this.status.data("growlhover", true);
+      },
+      function(){
+        $this.status.data("growlhover", false);
+        if($this.settings.timeout!==false){
+          window.setTimeout(function(){$this.status.cancel();}, $this.settings.timeout);
+        }
+      }
+    )      
+    //show status+handle timeout
+    .fadeIn(this.settings.speed,function(){
+      if($this.settings.timeout!==false){
+        window.setTimeout(function(){$this.cancel();}, $this.settings.timeout);
+      }
+    });
+    
+    this.cancel = function(force){
+    
+      if(!this.status.data("growlhover") || force){
+        $this.status.animate({opacity:"0.0"}, $this.settings.speed).slideUp(function(){
+              $this.status.remove();
+        });
+      }
+    };
+  }
+
 })(jQuery);
